@@ -52,6 +52,50 @@ async function registerUser(req, res) {
   }
 }
 
+async function loginUser(req, res) {
+  try {
+    const { email, password } = req.body;
 
+    const user = await userModel.findOne({ email });
+    if (!user) {
+      return res.status(400).json({ message: "user not exist" });
+    }
 
-module.exports = { registerUser, loginUser };
+    const isValidPassword = await bcrypt.compare(password, user.password);
+    if (!isValidPassword) {
+      return res.status(400).json({ message: "Invalid password" });
+    }
+
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET
+    );
+
+    res.cookie("token", token);
+
+    res.status(201).json({
+      success: true,
+      token: token,
+      message: "login Successfully ",
+      user: {
+        id: user._id,
+        email: user.email,
+        fullName: user.fullName,
+      },
+    });
+
+  } catch (error) {
+    res.status(400).json({
+      message: error.message
+    });
+  }
+}
+
+async function logOut(req,res){
+    res.clearCookie(),
+    res.status(200).json({
+      message:"user SuccessFully logOut"
+    })
+}
+
+module.exports = { registerUser, loginUser ,logOut};
