@@ -25,16 +25,10 @@ async function registerUser(req, res) {
     // Generate token
     const token = jwt.sign(
       { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" } // optional: token expiry
-    );
+      process.env.JWT_SECRET,);
 
     // Set cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", // secure only in production
-      sameSite: "strict",
-    });
+    res.cookie("token", token);
 
     // Send response
     res.status(201).json({
@@ -92,7 +86,7 @@ async function loginUser(req, res) {
 }
 
 async function logOut(req,res){
-    res.clearCookie(),
+    res.clearCookie("token"),
     res.status(200).json({
       message:"user SuccessFully logOut"
     })
