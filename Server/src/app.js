@@ -3,11 +3,14 @@ const express = require("express")
 const userRoute = require("../routes/auth.user")
 const foodPatanerRoute = require("../routes/auth.foodPatner")
 const foodRoute = require("../routes/food.routes")
+const cors = require("cors")
 
 
 const app = express();
-
-
+app.use(cors({
+  origin: "http://localhost:5173",   // frontend URL
+  credentials: true                  // allow cookies
+}));
 app.use(express.json()); 
 app.use(cookieParser())
 

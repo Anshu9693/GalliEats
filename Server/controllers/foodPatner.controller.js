@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 async function register(req,res){
         try {
-            const {fullName,email,password} = req.body;
+            const {fullName,email,password,KitchenName,address,phone} = req.body;
             const emailExist = await foodPatnerModel.findOne({email})
             if(emailExist){
                 res.status(400).json({
@@ -16,7 +16,10 @@ async function register(req,res){
                 const foodPatner= await foodPatnerModel.create({
                     fullName,
                     email,
-                    password:hashPassword
+                    password:hashPassword,
+                    KitchenName,
+                    phone,
+                    address
                 })
 
                 const token  = jwt.sign({
@@ -32,6 +35,9 @@ async function register(req,res){
                     foodPatner:{
                         id:foodPatner._id,
                         fullName:foodPatner.fullName,
+                        KitchenName:foodPatner.KitchenName,
+                        address:foodPatner.address,
+                        phone:foodPatner.phone,
                         email:foodPatner.email
 
                     }
@@ -74,7 +80,10 @@ async function login(req,res){
             foodPataner:{
                 id:foodPataner._id,
                 fullName:foodPataner.fullName,
-                email:foodPataner.email
+                email:foodPataner.email,
+                phone:foodPataner.phone,
+                KitchenName:foodPataner.KitchenName,
+                address:foodPataner.address
             }
         })
 

@@ -23,11 +23,22 @@ async function creteFood(req, res) {
 
   res.status(201).json({
     message: "food created succesfully",
+    food:foodItem
   });
+console.log(foodItem)
+}
 
+async function getFoodItem(req,res){
+  const foodItems =await foodModel.find({})
+  res.status(200).json({
+    message:"food item fetched successfully",
+    foodItems
+  })
 
 }
 
+
 module.exports = {
   creteFood,
+  getFoodItem
 };

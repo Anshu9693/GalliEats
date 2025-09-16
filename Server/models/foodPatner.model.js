@@ -5,9 +5,19 @@ const foodPatnerSchema = mongoose.Schema({
         type:String,
         required:true
     },
+   
     email:{
         type:String,
-        unique:true,
+        required:true,
+        unique:true
+    },
+    phone:{
+        type:String,
+        required:true,
+        unique:true
+    },
+    address:{   
+        type:String,
         required:true,
     },
     password:{

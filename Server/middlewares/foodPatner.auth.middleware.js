@@ -17,7 +17,7 @@ async function foodPatnerMiddleware(req, res, next) {
     req.foodPatner = foodPatner;
     next();
   } catch (error) {
-    req.status(500).json({
+    res.status(500).json({
       message: "invalid tokein " + error.message,
     });
   }
